@@ -4,45 +4,26 @@ namespace LLVG20240904G4.Endpoints
 {
     public static class CategoriaProductoEndpoint
     {
-        static List<object> bodegas = new List<object>();
+        // Lista estática en memoria para almacenar las categorías de productos
+        static List<object> categorias = new List<object>();
 
-        public static void AddBodegaEndpoints(this WebApplication app)
+        public static void AddCategoriaProductoEndpoints(this WebApplication app)
         {
-            // Endpoint privado para crear una nueva bodega
-            app.MapPost("/bodega/crear", [Authorize] (Guid id, string nombre, string ubicacion) =>
+            // Endpoint público para obtener todas las categorías de productos
+            app.MapGet("/categorias", () =>
             {
-                // Agrega la nueva bodega con el ID proporcionado por el usuario
-                var nuevaBodega = new { Id = id, Nombre = nombre, Ubicacion = ubicacion };
-                bodegas.Add(nuevaBodega);
-                return Results.Ok(nuevaBodega);
-            }).RequireAuthorization();
+                return Results.Ok(categorias);
+            });
 
-            // Endpoint privado para modificar una bodega existente
-            app.MapPut("/bodega/modificar", [Authorize] (Guid id, string nombre, string ubicacion) =>
+            // Endpoint privado para registrar una nueva categoría
+            app.MapPost("/categorias", [Authorize] (Guid id, string nuevaCategoria) =>
             {
-                var bodega = bodegas.FirstOrDefault(b => ((dynamic)b).Id == id);
-                if (bodega == null)
-                {
-                    return Results.NotFound("Bodega no encontrada.");
-                }
-
-                // Modificar los detalles de la bodega con el ID proporcionado por el usuario
-                ((dynamic)bodega).Nombre = nombre;
-                ((dynamic)bodega).Ubicacion = ubicacion;
-                return Results.Ok("Bodega modificada exitosamente.");
-            }).RequireAuthorization();
-
-            // Endpoint privado para obtener una bodega por su ID
-            app.MapGet("/bodega/{id}", [Authorize] (Guid id) =>
-            {
-                var bodega = bodegas.FirstOrDefault(b => ((dynamic)b).Id == id);
-                if (bodega == null)
-                {
-                    return Results.NotFound("Bodega no encontrada.");
-                }
-                return Results.Ok(bodega);
+                // Agrega la nueva categoría con el ID proporcionado por el usuario
+                categorias.Add(new { Id = id, Nombre = nuevaCategoria });
+                return Results.Ok("Categoría registrada exitosamente.");
             }).RequireAuthorization();
         }
     }
 }
+
 
