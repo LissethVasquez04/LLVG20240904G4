@@ -1,3 +1,4 @@
+
 // Importar el espacio de nombres donde se encuentra
 // la interfaz IJwtAuthenticationService
 using LLVG20240904G4.Auth;
@@ -5,6 +6,10 @@ using LLVG20240904G4.Auth;
 // Importar el espacio de nombres que contiene la
 // definición de los endpoints de la aplicación
 using LLVG20240904G4.Endpoints;
+using LLVG20240904G4.Auth;
+
+using LLVG20240904G4.Endpoints;
+
 
 // Importar el espacio de nombres necesario para
 // configurar la autenticación basada en tokens JWT
@@ -21,6 +26,7 @@ using Microsoft.OpenApi.Models;
 // Importar el espacio de nombres para trabajar con
 // codificación de texto y bytes
 using System.Text;
+using LLVG20240904G4.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
